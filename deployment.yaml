@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: second-app-deployment # name of deployment
+spec:
+  replicas: 1 # 1 pod
+  selector:
+    matchLabels: # This should be control by this deployment
+      app: second-app123 # deployment select pods with this label value to manage
+      tier: backend
+  template:
+    metadata:
+      labels: # This should be control by this deployment
+        app: second-app123 # create label for pod which will be create when this deployment created
+        tier: backend
+    spec:
+      containers: # container inside of pod
+        - name: second-node
+          image: thongvmdev/kub-first-app

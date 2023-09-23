@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: second-app123 # select pods with this label, with selector, do not need use matchedLabel like deployment
+  ports:
+    - protocol: 'TCP'
+      port: 80
+      targetPort: 8080
+    # - protocol: 'TCP'
+    #   port: 443
+    #   targetPort: 443
+    # can define multiple port here
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: second-app-deployment # name of deployment
+spec:
+  replicas: 1 # 1 pod
+  selector:
+    matchLabels: # This should be control by this deployment
+      app: second-app123 # deployment select pods with this label value to manage
+      tier: backend
+  template:
+    metadata:
+      labels: # This should be control by this deployment
+        app: second-app123 # create label for pod which will be create when this deployment created
+        tier: backend
+    spec:
+      containers: # container inside of pod
+        - name: second-node
+          image: thongvmdev/kub-first-app
