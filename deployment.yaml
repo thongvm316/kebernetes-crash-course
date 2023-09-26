@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: second-app-deployment # name of deployment
+  labels:
+    group: example
 spec:
   replicas: 1 # 1 pod
   selector:
@@ -17,3 +19,10 @@ spec:
       containers: # container inside of pod
         - name: second-node
           image: thongvmdev/kub-first-app
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            initialDelaySeconds: 5

@@ -26,6 +26,10 @@ spec:
     matchLabels: # This should be control by this deployment
       app: second-app123 # deployment select pods with this label value to manage
       tier: backend
+
+    # Other way to work with label
+    # matchExpressions:
+    #   - { key: app, operator: 'In', values: ['second-app', 'frist-app'] }
   template:
     metadata:
       labels: # This should be control by this deployment
